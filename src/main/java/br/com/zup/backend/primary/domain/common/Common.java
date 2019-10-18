@@ -23,11 +23,16 @@ import java.util.Objects;
 public abstract class Common implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public Common(@NotNull String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @NotNull
+    @NotNull(message = "Name cannot be null")
     public String name;
 
     public String description;
