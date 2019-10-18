@@ -2,6 +2,8 @@ package br.com.zup.backend.primary.domain;
 
 import br.com.zup.backend.primary.domain.common.Common;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -10,16 +12,39 @@ import java.util.Date;
  * @version 1.00
  * @since Release 01 of the application
  */
+@Entity
 public class User extends Common {
 
+    @NotNull(message = "Email cannot be null")
+    @Column(unique = true)
+    private String email;
+
+    @NotNull(message = "Social Code cannot be null")
+    @Column(unique = true)
     private Long socialCode;
 
+    @NotNull(message = "Birth Date cannot be null")
+    @Column(unique = true)
     private Date birthDate;
 
     public User(@NotNull String name, String description, Long socialCode, Date birthDate) {
         super(name, description);
         this.socialCode = socialCode;
         this.birthDate = birthDate;
+    }
+
+    /** Return Email of this object is using for authentication
+     *  the Email is unique
+     * @return email String*/
+    public String getEmail() {
+        return email;
+    }
+
+    /** Set Email of this object is using for authentication
+     * the Email is unique
+     * @param email String*/
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /** Return owner Social Code of this object
