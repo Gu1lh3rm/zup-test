@@ -27,8 +27,13 @@ public class User extends Common {
     @Column(unique = true)
     private Date birthDate;
 
-    public User(@NotNull String name, String description, Long socialCode, Date birthDate) {
+    public User() {
+
+    }
+
+    public User(@NotNull(message = "Name cannot be null") String name, String description, @NotNull(message = "Email cannot be null") String email, @NotNull(message = "Social Code cannot be null") Long socialCode, @NotNull(message = "Birth Date cannot be null") Date birthDate) {
         super(name, description);
+        this.email = email;
         this.socialCode = socialCode;
         this.birthDate = birthDate;
     }

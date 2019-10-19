@@ -23,6 +23,9 @@ import java.util.Objects;
 public abstract class Common implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public Common() {
+    }
+
     public Common(@NotNull String name, String description) {
         this.name = name;
         this.description = description;
