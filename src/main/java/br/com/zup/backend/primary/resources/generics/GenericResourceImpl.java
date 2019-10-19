@@ -14,11 +14,11 @@ public interface GenericResourceImpl<C extends Common> {
 
     public ResponseEntity<C> findById(Long id);
 
-    public ResponseEntity<C> create(@Valid C entity);
+    public ResponseEntity<C> create(C entity);
 
-    public ResponseEntity<C> update(Long id, @Valid C entity);
+    public ResponseEntity<C> update(Long id, C entity);
 
-    public ResponseEntity<C> delete(Long id, @Valid C entity);
+    public ResponseEntity<C> delete(Long id, C entity);
 
     public GenericService<C> service();
 

@@ -6,6 +6,7 @@ import br.com.zup.backend.primary.services.generics.GenericService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public class GenericResource<Type extends Common> implements GenericResourceImpl<Type> {
@@ -27,17 +28,17 @@ public class GenericResource<Type extends Common> implements GenericResourceImpl
     }
 
     @PostMapping
-    public ResponseEntity<Type> create(@RequestBody Type entity) {
+    public ResponseEntity<Type> create(@Valid @RequestBody Type entity) {
         return ResponseEntity.ok().body(service().save(entity));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Type> update(@PathVariable Long id, @RequestBody Type entity) {
+    public ResponseEntity<Type> update(@Valid @PathVariable Long id, @Valid @RequestBody Type entity) {
         return ResponseEntity.ok().body(service().update(id,entity));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Type> delete(@PathVariable Long id, @RequestBody Type  entity) {
+    public ResponseEntity<Type> delete(@PathVariable Long id, @Valid @RequestBody Type  entity) {
         service().delete(id, entity);
         return ResponseEntity.noContent().build();
     }

@@ -13,4 +13,14 @@ public class UserService extends GenericService<User> {
     public UserService(UserRepository repository) {
         super(repository);
     }
+
+    @Autowired
+    public UserRepository userRepository;
+
+    public User findByEmail(String obj) {
+        return userRepository.findByEmail(obj);
+    }
+    public User findBySocialCode(Long obj) {
+        return userRepository.findBySocialCode(obj);
+    }
 }

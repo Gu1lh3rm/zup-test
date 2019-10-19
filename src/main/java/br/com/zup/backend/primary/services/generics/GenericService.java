@@ -2,8 +2,10 @@ package br.com.zup.backend.primary.services.generics;
 
 import br.com.zup.backend.primary.domain.common.Common;
 import br.com.zup.backend.primary.repositories.generics.GenericRepository;
+import br.com.zup.backend.primary.services.exceptions.DataIntegrityException;
 import br.com.zup.backend.primary.services.exceptions.ObjectNotFoundException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /** Class implements common methods in all aplication but you need to extend Common class.
@@ -31,6 +33,7 @@ public class GenericService<C extends Common> implements GenericServiceImpl<C> {
 
     @Override
     public C save(C entity) {
+
         repository().save(entity);
         return findByIdObjectNotFound(entity.getId());
     }
@@ -45,7 +48,11 @@ public class GenericService<C extends Common> implements GenericServiceImpl<C> {
     @Override
     public C delete(Long id, C entity) {
         acceptedCriteria(id, entity);
-        repository().delete(entity);
+        try{
+            repository().delete(entity);
+        } catch (DataIntegrityException ex) {
+            throw new DataIntegrityException("Class is being used in more than one system table");
+        }
         return null;
     }
 
@@ -76,10 +83,6 @@ public class GenericService<C extends Common> implements GenericServiceImpl<C> {
 
     private C findByIdObjectNotFound(Long id) {
         return repository().findById(id).orElseThrow(() -> objectIdNotFound(id));
-    }
-
-    private C objectNotFoundException(Long id) {
-        throw objectIdNotFound(id);
     }
 
     private ObjectNotFoundException objectIdNotFound(Long id) {
