@@ -40,17 +40,17 @@ public abstract class Common implements Serializable {
 
     public String description;
 
-    @Column(name = "deleted", columnDefinition = "boolean DEFAULT false")
+    @Column(columnDefinition = "boolean DEFAULT false")
     protected Boolean deleted = false;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created", updatable = false, insertable = false,
+    @Column(updatable = false,
             columnDefinition = "TIMESTAMP WITHOUT TIME ZONE DEFAULT now()")
-    protected Date created = new Date();
+    protected Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    protected Date updated;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    protected Date updated = new Date();
 
 
     @PrePersist

@@ -16,39 +16,34 @@ public class GenericResource<Type extends Common> implements GenericResourceImpl
     }
 
     @GetMapping
-    public List<Type> findAll() {
-        return service().findAll();
+    public ResponseEntity<List<?>> findAll() {
+
+        return ResponseEntity.ok().body(service().findAll());
     }
 
     @GetMapping("{id}")
-    public Type findById(@PathVariable("id") Long id) {
-        return service().findById(id);
+    public ResponseEntity<Type> findById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(service().findById(id));
     }
 
     @PostMapping
-    public Type create(@RequestBody Type entity) {
-        return service().save(entity);
+    public ResponseEntity<Type> create(@RequestBody Type entity) {
+        return ResponseEntity.ok().body(service().save(entity));
     }
 
     @PutMapping("{id}")
-    public Type update(@RequestBody Type entity) {
-        return service().save(entity);
+    public ResponseEntity<Type> update(@PathVariable Long id, @RequestBody Type entity) {
+        return ResponseEntity.ok().body(service().update(id,entity));
     }
 
     @DeleteMapping(value = "/{id}")
-    public Type delete(@PathVariable Long id) {
-        service().delete(id);
-        return null;
-    }
-
-    @DeleteMapping
-    public Type delete(@RequestBody Type  entity) {
-        service().delete(entity);
-        return null;
+    public ResponseEntity<Type> delete(@PathVariable Long id, @RequestBody Type  entity) {
+        service().delete(id, entity);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<Type>> findAll(
+    public ResponseEntity<List<?>> findAll(
             @RequestParam(value = "key") String key,
             @RequestParam(value = "operation") String operation,
             @RequestParam(value = "value") String value) {

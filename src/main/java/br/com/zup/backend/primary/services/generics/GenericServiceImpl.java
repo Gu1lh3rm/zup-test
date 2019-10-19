@@ -12,9 +12,9 @@ public interface GenericServiceImpl <C extends Common> {
 
     C save(C entity);
 
-    C delete(Long id);
+    C update(Long id,C entity);
 
-    C delete(C entity);
+    C delete(Long id,C entity);
 
     List<C> findAll(String key, String operation, String value);
 

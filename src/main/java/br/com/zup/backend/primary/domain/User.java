@@ -31,18 +31,25 @@ public class User extends Common {
 
     }
 
-    public User(@NotNull(message = "Name cannot be null") String name, String description, @NotNull(message = "Email cannot be null") String email, @NotNull(message = "Social Code cannot be null") Long socialCode, @NotNull(message = "Birth Date cannot be null") Date birthDate) {
-        super(name, description);
-        this.email = email;
-        this.socialCode = socialCode;
-        this.birthDate = birthDate;
-    }
-
     /** Return Email of this object is using for authentication
      *  the Email is unique
      * @return email String*/
     public String getEmail() {
         return email;
+    }
+
+    /** Constructor for simplify Creation of Object User
+     * @param name String not null
+     * @param description String
+     * @param email String not null
+     * @param birthDate Date
+     * @return new User() User
+     */
+    public User(@NotNull(message = "Name cannot be null") String name, String description, @NotNull(message = "Email cannot be null") String email, @NotNull(message = "Social Code cannot be null") Long socialCode, @NotNull(message = "Birth Date cannot be null") Date birthDate) {
+        super(name, description);
+        this.email = email;
+        this.socialCode = socialCode;
+        this.birthDate = birthDate;
     }
 
     /** Set Email of this object is using for authentication
