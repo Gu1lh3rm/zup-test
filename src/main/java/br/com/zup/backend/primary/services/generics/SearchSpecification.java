@@ -1,6 +1,7 @@
 package br.com.zup.backend.primary.services.generics;
 
 import java.text.Normalizer;
+import java.util.Objects;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -19,16 +20,19 @@ public class SearchSpecification<C extends Common> implements Specification<C> {
 
     @Override
     public Predicate toPredicate(Root<C> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        if (criteria.getOperation().equalsIgnoreCase(">")) {
+        if (criteria.getOperation().equalsIgnoreCase("equal")) {
+            return criteriaBuilder.equal(
+                    root.<String>get(criteria.getKey()), convertBoolean(criteria.getValue()));
+        } else if (criteria.getOperation().equalsIgnoreCase(">")) {
             return criteriaBuilder.greaterThanOrEqualTo(
                     root.<String>get(criteria.getKey()), criteria.getValue().toString());
         } else if (criteria.getOperation().equalsIgnoreCase("<")) {
             return criteriaBuilder.lessThanOrEqualTo(
                     root.get(criteria.getKey()), criteria.getValue().toString());
-        } else if (criteria.getOperation().equalsIgnoreCase(":") || criteria.getOperation().equalsIgnoreCase("like")) {
+        } else if (criteria.getOperation().equalsIgnoreCase("like")) {
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
                 return criteriaBuilder.like(
-                        root.get(criteria.getKey()), "%" + criteria.getValue() + "%");
+                        root.get(criteria.getKey()), "%" + convertLike(criteria.getValue()) + "%");
             } else {
                 return criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());
             }
@@ -39,13 +43,26 @@ public class SearchSpecification<C extends Common> implements Specification<C> {
                                 criteriaBuilder.lower(
                                         root.get(criteria.getKey())
                                 )
-                        ), "%" + removeAccents(criteria.getValue().toLowerCase()) + "%");
+                        ), "%" + removeAccents(convertLike(criteria.getValue()).toString().toLowerCase()) + "%");
 
             } else {
                 return criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());
             }
         }
         return null;
+    }
+
+    public Object convertLike(String value) {
+        return value.replaceAll(" ", "%");
+    }
+
+    public Object convertBoolean(String value) {
+        if(value.replaceAll(" ", "").equalsIgnoreCase("true")) {
+            return Boolean.TRUE;
+        } else if(value.replaceAll(" ", "").equalsIgnoreCase("false")) {
+            return Boolean.FALSE;
+        }
+        return value;
     }
 
     public static String removeAccents(String str) {
