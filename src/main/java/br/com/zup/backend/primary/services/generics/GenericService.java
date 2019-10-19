@@ -11,13 +11,11 @@ import java.util.List;
  * @author Guilherme Lourenco
  * @version 1.00
  * @since Release 01 of the application
- * @param Type Class - Implements Class Entity
  */
 public class GenericService<C extends Common> implements GenericServiceImpl<C> {
     private GenericRepository<C> repository;
 
     /** Received or service of type Type class.
-     * @param ClassRepository Service - Implements ClassRepository of Entity
      * @return ClassRepository Repository
      */
     public GenericService(GenericRepository<C> repository) {
@@ -48,7 +46,7 @@ public class GenericService<C extends Common> implements GenericServiceImpl<C> {
      */
     @Override
     public C save(C entity) {
-
+        entity.setId(null);
         repository().save(entity);
         return findByIdObjectNotFound(entity.getId());
     }

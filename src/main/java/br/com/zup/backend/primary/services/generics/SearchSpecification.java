@@ -24,9 +24,15 @@ public class SearchSpecification<C extends Common> implements Specification<C> {
             return criteriaBuilder.equal(
                     root.<String>get(criteria.getKey()), convertBoolean(criteria.getValue()));
         } else if (criteria.getOperation().equalsIgnoreCase(">")) {
+            return criteriaBuilder.greaterThan(
+                    root.<String>get(criteria.getKey()), criteria.getValue().toString());
+        } else if (criteria.getOperation().equalsIgnoreCase(">=")) {
             return criteriaBuilder.greaterThanOrEqualTo(
                     root.<String>get(criteria.getKey()), criteria.getValue().toString());
         } else if (criteria.getOperation().equalsIgnoreCase("<")) {
+            return criteriaBuilder.lessThan(
+                    root.get(criteria.getKey()), criteria.getValue().toString());
+        } else if (criteria.getOperation().equalsIgnoreCase("<=")) {
             return criteriaBuilder.lessThanOrEqualTo(
                     root.get(criteria.getKey()), criteria.getValue().toString());
         } else if (criteria.getOperation().equalsIgnoreCase("like")) {
