@@ -3,12 +3,12 @@ package br.com.zup.backend.primary.domain;
 import br.com.zup.backend.primary.domain.common.Common;
 import br.com.zup.backend.primary.domain.enums.UserType;
 import br.com.zup.backend.primary.services.validation.UserInput;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /** Class for saving user information and will be used for basic authentication.
  * @author Guilherme Lourenco
@@ -33,6 +33,12 @@ public class User extends Common {
 
     @NotNull(message = "User Type cannot be null")
     private Integer userType;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Address> adresses = new ArrayList<>();
+
+    private String password;
 
     public User() {
 
@@ -102,5 +108,22 @@ public class User extends Common {
 
     public void setUserType(Integer userType) {
         this.userType = userType;
+    }
+
+    public List<Address> getAdresses() {
+        return adresses;
+    }
+
+    public void setAdresses(List<Address> adresses) {
+        this.adresses = adresses;
+    }
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
