@@ -4,9 +4,11 @@ import br.com.zup.backend.primary.domain.common.Common;
 import br.com.zup.backend.primary.repositories.generics.GenericRepository;
 import br.com.zup.backend.primary.services.generics.GenericService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /** Class exposes endpoints of all classes extending from common.
@@ -80,10 +82,10 @@ public class GenericResource<Type extends Common> implements GenericResourceImpl
      */
     @GetMapping(value = "/search")
     public ResponseEntity<List<?>> findAll(
-            @RequestParam(value = "key") String key,
-            @RequestParam(value = "operation") String operation,
-            @RequestParam(value = "value") String value) {
-        return ResponseEntity.ok().body((List<Type>) service().findAll(key, operation, value));
+            @Valid @NonNull @NotBlank(message = "key cannot be null") @RequestParam(value = "key") String key,
+            @Valid @NonNull @NotBlank(message = "operation cannot be null") @RequestParam(value = "operation") String operation,
+            @Valid @NonNull @NotBlank(message = "value cannot be null") @RequestParam(value = "value") String value) {
+        return ResponseEntity.ok().body(service().findAll(key, operation, value));
     }
 
     /** Received or service of type Type class.

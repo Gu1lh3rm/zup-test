@@ -87,14 +87,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException , AuthorizationException, UsernameNotFoundException {
-        try {
             super.doFilter(req, res, chain);
-        } catch (UsernameNotFoundException ex) {
-            super.doFilter(req, res, chain);
-        } catch (AccessDeniedException ex) {
-            throw new AuthorizationException("Access deny");
-        } catch (Exception ex) {
-            throw new AuthorizationException("Access deny");
         }
-    }
 }

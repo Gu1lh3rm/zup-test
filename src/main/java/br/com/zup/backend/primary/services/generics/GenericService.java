@@ -4,10 +4,7 @@ import br.com.zup.backend.primary.core.security.UserSS;
 import br.com.zup.backend.primary.domain.common.Common;
 import br.com.zup.backend.primary.domain.enums.Role;
 import br.com.zup.backend.primary.repositories.generics.GenericRepository;
-import br.com.zup.backend.primary.services.exceptions.AuthorizationException;
-import br.com.zup.backend.primary.services.exceptions.DataIntegrityException;
-import br.com.zup.backend.primary.services.exceptions.ObjectNotFoundException;
-import br.com.zup.backend.primary.services.exceptions.ValidatorException;
+import br.com.zup.backend.primary.services.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -96,9 +93,9 @@ public class GenericService<C extends Common> implements GenericServiceImpl<C> {
 
     @Override
     public List<C> findAll(String key, String operation, String value) {
-        key = key != null ? !key.equals("") ? key : "name" : "name";
-        operation = operation != null ? !operation.equals("") ? operation : "like" : "like";
-        value = value != null ? !value.equals("") ? value : "" : "";
+        isNotNull(key,"key");
+        isNotNull(operation,"operation");
+        isNotNull(value,"key");
 
         SearchSpecification<C> spec
                 = new SearchSpecification(new SearchCriteria(key, operation, value));
@@ -175,6 +172,12 @@ public class GenericService<C extends Common> implements GenericServiceImpl<C> {
             throw new AuthorizationException("Access deny");
         }
 
+    }
+
+    public void verifySpecificationException(String params, String key) {
+        if(!(params.contains(key))) {
+            throw new SpecificationException("Invalid Specification "+key);
+        }
     }
 
 }

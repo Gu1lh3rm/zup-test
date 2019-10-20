@@ -2,6 +2,7 @@ package br.com.zup.backend.primary.resources.exceptions;
 
 import br.com.zup.backend.primary.services.exceptions.*;
 import org.springframework.boot.json.JsonParseException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -97,6 +98,19 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Access deny", e.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+    }
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    public ResponseEntity<StandardError> authentication(InvalidDataAccessApiUsageException e, HttpServletRequest request) {
+        String message = "";
+        if(e.getMessage().contains("]")) {
+            message = e.getMessage().substring(0, e.getMessage().indexOf("]")+1);
+        } else {
+            message = e.getMessage();
+        }
+
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.UNPROCESSABLE_ENTITY.value(), "Unable to locate Attribute", message, request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
     }
 
 }

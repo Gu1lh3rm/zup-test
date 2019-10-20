@@ -1,11 +1,7 @@
 package br.com.zup.backend.primary.services;
 
-import br.com.zup.backend.primary.core.security.UserSS;
 import br.com.zup.backend.primary.domain.User;
-import br.com.zup.backend.primary.domain.enums.Role;
 import br.com.zup.backend.primary.repositories.UserRepository;
-import br.com.zup.backend.primary.services.exceptions.AuthorizationException;
-import br.com.zup.backend.primary.services.exceptions.ValidatorException;
 import br.com.zup.backend.primary.services.generics.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
