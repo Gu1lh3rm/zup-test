@@ -8,7 +8,7 @@ For further reference, please consider the following sections:
 * [Entity and Relationship Implementation Document](https://github.com/Gu1lh3rm/zup-test/blob/master/document/entity-relationship-diagram-api.jpeg)
 
 ### Guides
-The following guides illustrate how to use some features concretely:
-* [Official Apache API documentation](http://localhost:8080/api/swagger-ui.html)
+The following guides illustrate how to use some features correctly:
+* [REST API Documentation](http://localhost:8080/api/swagger-ui.html)
 
 

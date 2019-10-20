@@ -1,16 +1,21 @@
 package br.com.zup.backend.primary.core.security;
 
+import br.com.zup.backend.primary.services.exceptions.AuthorizationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -64,7 +69,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
-                throws IOException, ServletException {
+                throws IOException, ServletException, AuthorizationException {
             response.setStatus(401);
             response.setContentType("application/json");
             response.getWriter().append(json());
@@ -74,9 +79,22 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             long date = new Date().getTime();
             return "{\"timestamp\": " + date + ", "
                     + "\"status\": 401, "
-                    + "\"error\": \"Não autorizado\", "
-                    + "\"message\": \"Email ou senha inválidos\", "
+                    + "\"error\": \"Not authorized\n\", "
+                    + "\"message\": \"Invalid email or password\n\", "
                     + "\"path\": \"/login\"}";
+        }
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException , AuthorizationException, UsernameNotFoundException {
+        try {
+            super.doFilter(req, res, chain);
+        } catch (UsernameNotFoundException ex) {
+            super.doFilter(req, res, chain);
+        } catch (AccessDeniedException ex) {
+            throw new AuthorizationException("Access deny");
+        } catch (Exception ex) {
+            throw new AuthorizationException("Access deny");
         }
     }
 }

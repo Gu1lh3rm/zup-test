@@ -78,6 +78,10 @@ public class UserSS implements UserDetails{
         return true;
     }
 
+    /** Checks if UserS contains the specified Role
+     * @param role Role
+     * @return true or false
+     */
     public boolean hasRole(Role role) {
         return getAuthorities().contains(new SimpleGrantedAuthority(role.getDescricao()));
     }

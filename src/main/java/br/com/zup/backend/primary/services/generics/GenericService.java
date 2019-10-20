@@ -72,8 +72,8 @@ public class GenericService<C extends Common> implements GenericServiceImpl<C> {
     @Override
     public C update(Long id, C entity) {
         acceptedCriteria(id, entity);
-        repository().save(entity);
-        return findByIdObjectNotFound(entity.getId());
+        findByIdObjectNotFound(entity.getId());
+        return repository().save(entity);
     }
 
     /** Return Object type the class
@@ -153,6 +153,9 @@ public class GenericService<C extends Common> implements GenericServiceImpl<C> {
 
     }
 
+    /** Get the logged in user
+     * @return UserSS
+     */
     public static UserSS authenticated() {
         try {
             return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

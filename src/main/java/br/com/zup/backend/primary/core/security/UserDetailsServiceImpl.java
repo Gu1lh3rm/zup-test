@@ -19,8 +19,8 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
         User resource = repository.findByEmail(tokenDecode);
 
-        if (resource == null) {
-            throw  new UsernameNotFoundException(resource.getEmail());
+        if (resource != null ? resource.getEmail() == null : true) {
+            throw new UsernameNotFoundException("Access deny");
         }
 
         return new UserSS(resource.getId(), resource.getEmail(), resource.getPassword(), resource.getRole());

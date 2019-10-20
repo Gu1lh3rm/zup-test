@@ -1,13 +1,13 @@
 package br.com.zup.backend.primary.services.generics;
 
 import java.text.Normalizer;
-import java.util.Objects;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.zup.backend.primary.domain.common.Common;
+import br.com.zup.backend.primary.services.exceptions.SpecificationException;
 import org.springframework.data.jpa.domain.Specification;
 
 public class SearchSpecification<C extends Common> implements Specification<C> {
@@ -19,7 +19,7 @@ public class SearchSpecification<C extends Common> implements Specification<C> {
     }
 
     @Override
-    public Predicate toPredicate(Root<C> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(Root<C> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) throws SpecificationException {
         if (criteria.getOperation().equalsIgnoreCase("equal")) {
             return criteriaBuilder.equal(
                     root.<String>get(criteria.getKey()), convertBoolean(criteria.getValue()));
@@ -55,7 +55,7 @@ public class SearchSpecification<C extends Common> implements Specification<C> {
                 return criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());
             }
         }
-        return null;
+        throw new SpecificationException("Invalid Specification key");
     }
 
     public Object convertLike(String value) {
