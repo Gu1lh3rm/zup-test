@@ -10,7 +10,8 @@ For further reference, please consider the following sections:
 
 ### Guides
 The following guides illustrate how to use some features correctly:
-* [REST API Documentation](http://localhost:8080/api/swagger-ui.html)
+* [REST API Documentation](http://zup-test.herokuapp.com/api/swagger-ui.html)
+* [REST API Local Documentation](http://localhost:8080/api/swagger-ui.html)
 
 ####Build project
 
