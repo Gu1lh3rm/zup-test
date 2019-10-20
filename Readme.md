@@ -13,13 +13,13 @@ The following guides illustrate how to use some features correctly:
 * [REST API Documentation](http://zup-test.herokuapp.com/api/swagger-ui.html)
 * [REST API Local Documentation](http://localhost:8080/api/swagger-ui.html)
 
-####Build project
+###Build project
 
 ``
  mvn clean install
 ``
 
-####Start project
+###Start project
 ``
 java -jar backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod & disown
 ``
