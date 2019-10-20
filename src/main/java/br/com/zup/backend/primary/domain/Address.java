@@ -13,6 +13,8 @@ public class Address extends Common {
 
     private Integer number;
     private String neighborhood;
+    private String street;
+    private String complement;
     private Long zipCode;
 
     @JsonBackReference
@@ -37,6 +39,22 @@ public class Address extends Common {
 
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
     }
 
     public Long getZipCode() {

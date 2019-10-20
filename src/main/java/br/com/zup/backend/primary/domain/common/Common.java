@@ -26,19 +26,9 @@ public abstract class Common implements Serializable {
     public Common() {
     }
 
-    public Common(@NotNull String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-
-    @NotNull(message = "Name cannot be null")
-    public String name;
-
-    public String description;
 
     @Column(columnDefinition = "boolean DEFAULT false")
     protected Boolean deleted = false;
@@ -74,30 +64,6 @@ public abstract class Common implements Serializable {
      * @param id Long*/
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /** Return owner name of this object
-     * @return name String*/
-    public String getName() {
-        return name;
-    }
-
-    /** Set owner name of this object
-     * @param name String*/
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /** Return description general of this object
-     * @return description String*/
-    public String getDescription() {
-        return description;
-    }
-
-    /** Set description general of this object
-     * @param description String*/
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     /** Return true or false for logical deletion

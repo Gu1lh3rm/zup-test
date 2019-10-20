@@ -49,12 +49,22 @@ public class UserService extends GenericService<User> {
     @Override
     public User update(Long id, User entity) {
         verifyUserSS(id);
-        return super.update(id, entity);
+        return super.update(id, fromUpdate(entity));
     }
 
     @Override
     public User delete(Long id, User entity) {
         verifyUserSS(id);
         return super.delete(id, entity);
+    }
+
+    public User fromUpdate(User entity) {
+        User user = findById(entity.getId());
+        if(entity.getPassword() == null) {
+            entity.setPassword(user.getPassword());
+        }
+
+        return entity;
+
     }
 }

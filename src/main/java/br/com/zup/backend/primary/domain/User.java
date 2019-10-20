@@ -1,5 +1,6 @@
 package br.com.zup.backend.primary.domain;
 
+import br.com.zup.backend.primary.domain.common.Basics;
 import br.com.zup.backend.primary.domain.common.Common;
 import br.com.zup.backend.primary.domain.enums.Role;
 import br.com.zup.backend.primary.domain.enums.UserType;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  */
 @UserInput
 @Entity
-public class User extends Common {
+public class User extends Basics {
 
     @NotNull(message = "Email cannot be null")
     @Column(unique = true)
@@ -40,13 +41,13 @@ public class User extends Common {
     private List<Address> adresses = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "PHONE")
-    private Set<String> phones = new HashSet<>();
+    @CollectionTable(name = "PHONES")
+    private Set<String> number = new HashSet<>();
 
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "ROLES")
-    private Set<Integer> roles = new HashSet<>();
+    private Set<Integer> role = new HashSet<>();
 
     private String password;
 
@@ -136,21 +137,21 @@ public class User extends Common {
         this.password = password;
     }
 
-    public Set<String> getPhones() {
-        return phones;
+    public Set<String> getNumber() {
+        return number;
     }
 
-    public void setPhones(Set<String> phones) {
-        this.phones = phones;
+    public void setNumber(Set<String> number) {
+        this.number = number;
     }
 
-    public Set<Role> getRoles() {
-        return roles.stream().map(x -> Role.toEnum(x)).collect(Collectors.toSet());
+    public Set<Role> getRole() {
+        return role.stream().map(x -> Role.toEnum(x)).collect(Collectors.toSet());
     }
 
 
     public void addRole(Role perfil) {
-        roles.add(perfil.getCod());
+        role.add(perfil.getCod());
     }
 
 }
