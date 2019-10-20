@@ -22,7 +22,6 @@ public class UserDetail extends User {
     public UserDetail(UserSS credential, Collection<? extends GrantedAuthority> authorities, Set<Role> roles) {
         super(credential.getUsername(), credential.getPassword(), authorities);
         this.id = credential.getId();
-//        TODO fix it
         this.name = credential.getUsername();
         this.email = credential.getUsername();
         this.roles = roles;

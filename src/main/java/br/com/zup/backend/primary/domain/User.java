@@ -1,6 +1,7 @@
 package br.com.zup.backend.primary.domain;
 
 import br.com.zup.backend.primary.domain.common.Common;
+import br.com.zup.backend.primary.domain.enums.Role;
 import br.com.zup.backend.primary.domain.enums.UserType;
 import br.com.zup.backend.primary.services.validation.UserInput;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /** Class for saving user information and will be used for basic authentication.
  * @author Guilherme Lourenco
@@ -28,7 +30,6 @@ public class User extends Common {
     private Long socialCode;
 
     @NotNull(message = "Birth Date cannot be null")
-    @Column(unique = true)
     private Date birthDate;
 
     @NotNull(message = "User Type cannot be null")
@@ -38,10 +39,19 @@ public class User extends Common {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Address> adresses = new ArrayList<>();
 
+    @ElementCollection
+    @CollectionTable(name = "PHONE")
+    private Set<String> phones = new HashSet<>();
+
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "ROLES")
+    private Set<Integer> roles = new HashSet<>();
+
     private String password;
 
     public User() {
-
+        addRole(Role.USER);
     }
 
     /** Return Email of this object is using for authentication
@@ -118,7 +128,6 @@ public class User extends Common {
         this.adresses = adresses;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -126,4 +135,22 @@ public class User extends Common {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Set<String> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(Set<String> phones) {
+        this.phones = phones;
+    }
+
+    public Set<Role> getRoles() {
+        return roles.stream().map(x -> Role.toEnum(x)).collect(Collectors.toSet());
+    }
+
+
+    public void addRole(Role perfil) {
+        roles.add(perfil.getCod());
+    }
+
 }

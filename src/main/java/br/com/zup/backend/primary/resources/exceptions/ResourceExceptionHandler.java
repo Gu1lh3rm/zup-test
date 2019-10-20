@@ -1,7 +1,9 @@
 package br.com.zup.backend.primary.resources.exceptions;
 
+import br.com.zup.backend.primary.services.exceptions.AuthorizationException;
 import br.com.zup.backend.primary.services.exceptions.DataIntegrityException;
 import br.com.zup.backend.primary.services.exceptions.ObjectNotFoundException;
+import br.com.zup.backend.primary.services.exceptions.ValidatorException;
 import org.springframework.boot.json.JsonParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +59,20 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "JSON Format Error", e.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
+    @ExceptionHandler(ValidatorException.class)
+    public ResponseEntity<StandardError> objectNotFound(ValidatorException e, HttpServletRequest request) {
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.UNPROCESSABLE_ENTITY.value(), "Validation Error", e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> objectNotFound(AuthorizationException e, HttpServletRequest request) {
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Access deny", e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
 
 }

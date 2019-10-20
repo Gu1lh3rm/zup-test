@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.Date;
-import java.util.StringTokenizer;
 
 @Component
 public class JWTUtil {
@@ -75,7 +73,7 @@ public class JWTUtil {
 
     private Claims getClaims(String token) {
         try {
-            return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
+            return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token.replaceAll("Bearer","").replaceAll(" ", "")).getBody();
         }catch (Exception e){
             return null;
         }
